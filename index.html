@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rural Learn - Offline Educational Content Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Rural Learn</h1>
+            </div>
+            <div class="connection-status">
+                <i class="fas fa-wifi"></i>
+                <span id="connection-text">Online</span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Learn Anywhere, Anytime</h2>
+                <p>Access quality educational content even without internet. Download once, learn forever.</p>
+                <button class="primary-btn" id="download-btn">
+                    <i class="fas fa-download"></i> Download Content
+                </button>
+            </div>
+        </section>
+
+        <section class="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="icon-container blue">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3>Download Content</h3>
+                        <p>Browse and download educational materials when you have internet access.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon-container green">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Learn Offline</h3>
+                        <p>Access all your downloaded content anytime, even without internet connection.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon-container yellow">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3>Track Progress</h3>
+                        <p>Take quizzes and see your learning progress with detailed statistics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-access">
+            <div class="container">
+                <h2>Quick Access</h2>
+                <div class="access-cards">
+                    <div class="access-card">
+                        <h3>Content Library</h3>
+                        <p><span id="offline-count">0</span> items available offline</p>
+                        <button class="secondary-btn" id="browse-library-btn">Browse Library</button>
+                    </div>
+
+                    <div class="access-card">
+                        <h3>Interactive Quizzes</h3>
+                        <p><span id="quiz-completed">0</span>/<span id="quiz-total">0</span> quizzes completed</p>
+                        <button class="secondary-btn" id="take-quizzes-btn">Take Quizzes</button>
+                    </div>
+
+                    <div class="access-card">
+                        <h3>Progress Dashboard</h3>
+                        <p>View your learning journey</p>
+                        <button class="secondary-btn" id="check-progress-btn">Check Progress</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Library Modal -->
+        <div id="content-library-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                
+                <div class="library-header">
+                    <h2>Content Library</h2>
+                    <div class="library-status">
+                        <i class="fas fa-wifi"></i>
+                        <span>Online</span>
+                    </div>
+                </div>
+                
+                <p>Browse and download educational content for offline use</p>
+                
+                <div class="search-container">
+                    <input type="text" placeholder="Search for content..." id="search-content">
+                    <select id="subject-filter">
+                        <option value="all">All Subjects</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="history">History</option>
+                        <option value="english">English</option>
+                    </select>
+                </div>
+                
+                <div class="filter-container">
+                    <div></div>
+                    <div class="view-toggle">
+                        <button id="grid-view" class="active"><i class="fas fa-th"></i> Grid</button>
+                        <button id="list-view"><i class="fas fa-list"></i> List</button>
+                    </div>
+                </div>
+                
+                <div id="content-container" class="content-grid">
+                    <!-- Content will be loaded here dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Detail Modal -->
+        <div id="content-detail-modal" class="content-detail">
+            <div class="detail-content">
+                <span class="close-btn" id="detail-close-btn">&times;</span>
+                <div class="detail-thumbnail">
+                    <img src="" alt="Content Thumbnail" id="detail-img">
+                    <div class="detail-subject" id="detail-subject"></div>
+                </div>
+                <div class="detail-info">
+                    <h3 id="detail-title"></h3>
+                    <p id="detail-description"></p>
+                    <div class="detail-meta">
+                        <i class="fas fa-download"></i>
+                        <span id="detail-size"></span>
+                    </div>
+                    <button class="download-btn" id="detail-download-btn">Download</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div id="login-modal" class="modal">
+            <div class="modal-content login-content">
+                <span class="close-btn" id="login-close-btn">&times;</span>
+                
+                <div class="login-header">
+                    <h2>Welcome Back</h2>
+                </div>
+                
+                <div class="login-tabs">
+                    <button class="tab-btn active" data-tab="login">Login</button>
+                    <button class="tab-btn" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <div class="tab-content" id="login-tab">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter your password" required>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember-me">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                            <a href="#" class="forgot-password">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="primary-btn">Login</button>
+                    </form>
+                </div>
+                
+                <div class="tab-content hidden" id="signup-tab">
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Choose a password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        </div>
+                        <button type="submit" class="primary-btn">Sign Up</button>
+                    </form>
+                </div>
+                
+                <div class="social-login">
+                    <p>Or continue with</p>
+                    <div class="social-buttons">
+                        <button class="social-btn google"><i class="fab fa-google"></i> Google</button>
+                        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Modal -->
+        <div id="profile-modal" class="modal">
+            <div class="modal-content profile-content">
+                <span class="close-btn" id="profile-close-btn">&times;</span>
+                
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/100" alt="Profile Picture" id="profile-img">
+                        <div class="edit-avatar">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <h2 id="profile-name">John Doe</h2>
+                    <p id="profile-email">john.doe@example.com</p>
+                    <div class="online-status">
+                        <i class="fas fa-circle"></i>
+                        <span>Online</span>
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="profile-downloads">5</span>
+                        <span class="stat-label">Downloads</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="profile-completed">12</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="profile-badges">3</span>
+                        <span class="stat-label">Badges</span>
+                    </div>
+                </div>
+                
+                <div class="profile-navigation">
+                    <button class="nav-btn active" data-section="downloads">
+                        <i class="fas fa-download"></i> My Downloads
+                    </button>
+                    <button class="nav-btn" data-section="progress">
+                        <i class="fas fa-chart-line"></i> Progress
+                    </button>
+                    <button class="nav-btn" data-section="achievements">
+                        <i class="fas fa-medal"></i> Achievements
+                    </button>
+                    <button class="nav-btn" data-section="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+                
+                <div class="profile-sections">
+                    <div class="profile-section active" id="downloads-section">
+                        <h3>My Downloads</h3>
+                        <div class="downloaded-items" id="downloaded-items-list">
+                            <!-- Downloaded items will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section" id="progress-section">
+                        <h3>Learning Progress</h3>
+                        <div class="progress-chart">
+                            <canvas id="progress-chart-canvas"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section" id="achievements-section">
+                        <h3>Achievements</h3>
+                        <div class="badges-container">
+                            <div class="badge">
+                                <i class="fas fa-star"></i>
+                                <span>First Download</span>
+                            </div>
+                            <div class="badge">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Quiz Master</span>
+                            </div>
+                            <div class="badge locked">
+                                <i class="fas fa-lock"></i>
+                                <span>Subject Expert</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-section" id="settings-section">
+                        <h3>Account Settings</h3>
+                        <form id="settings-form">
+                            <div class="form-group">
+                                <label for="settings-name">Name</label>
+                                <input type="text" id="settings-name" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-email">Email</label>
+                                <input type="email" id="settings-email" value="john.doe@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="settings-password">New Password</label>
+                                <input type="password" id="settings-password" placeholder="Enter new password">
+                            </div>
+                            <button type="submit" class="primary-btn">Save Changes</button>
+                        </form>
+                        <button id="logout-btn" class="secondary-btn danger-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <div class="footer-logo">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Rural Learn</h3>
+                        </div>
+                        <p class="footer-description">Empowering rural communities with quality educational content that can be accessed anytime, anywhere, even without internet.</p>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <ul class="footer-links">
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#team">Our Team</a></li>
+                            <li><a href="#careers">Careers</a></li>
+                            <li><a href="#privacy">Privacy Policy</a></li>
+                            <li><a href="#terms">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Resources</h4>
+                        <ul class="footer-links">
+                            <li><a href="#library">Content Library</a></li>
+                            <li><a href="#blog">Blog</a></li>
+                            <li><a href="#partners">Partners</a></li>
+                            <li><a href="#developers">Developers</a></li>
+                            <li><a href="#community">Community</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul class="footer-links">
+                            <li><a href="#help">Help Center</a></li>
+                            <li><a href="#faq">FAQs</a></li>
+                            <li><a href="#contact">Contact Us</a></li>
+                            <li><a href="#feedback">Feedback</a></li>
+                            <li><a href="#accessibility">Accessibility</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Connect</h4>
+                        <div class="social-icons">
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        </div>
+                        <div class="footer-cta">
+                            <a href="#" id="footer-login-btn" class="footer-btn">Login</a>
+                            <a href="#" id="footer-signup-trigger" class="footer-btn">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; <span id="current-year">2023</span> Rural Learn. All Rights Reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#terms">Terms</a>
+                    <a href="#sitemap">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
